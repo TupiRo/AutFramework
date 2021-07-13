@@ -1,5 +1,6 @@
 ﻿using AliExpressAutomation.Framework.Common;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,14 +11,16 @@ namespace AliExpressAutomation.Pages
 {
     public class HomePage
     {
-        public string txtSearch => "search-key";
-        public string btnSearch => ".search-button";
+        private string txtSearch => "search-key";
+        private string btnSearch => ".search-button";
+        private string btnClose => ".btn-close";
 
         public IWebDriver driver;
 
         public HomePage(IWebDriver driver)
         {
             this.driver = driver;
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
         public HomePage SetSearch(string searchText)
@@ -26,10 +29,22 @@ namespace AliExpressAutomation.Pages
             return this;
         }
 
+        public HomePage CloseAdvertisement()
+        {
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(btnClose)));
+            if (element.Displayed)
+            {
+                element.Click();
+            }
+
+            return this;
+        }
+
         public SearchPage ClickSearchButton()
         {
             driver.FindElement(By.CssSelector(btnSearch)).Click();
-            return new SearchPage();
+            return new SearchPage(driver);
         }
     }
 }

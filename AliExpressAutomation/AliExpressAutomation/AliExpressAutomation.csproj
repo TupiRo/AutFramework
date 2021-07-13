@@ -50,11 +50,15 @@
     <Reference Include="WebDriver, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Selenium.WebDriver.3.141.0\lib\net45\WebDriver.dll</HintPath>
     </Reference>
+    <Reference Include="WebDriver.Support, Version=3.141.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Selenium.Support.3.141.0\lib\net45\WebDriver.Support.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Framework\Common\BrowserManager.cs" />
     <Compile Include="Framework\Common\DriverManager.cs" />
     <Compile Include="Pages\HomePage.cs" />
+    <Compile Include="Pages\ItemPage.cs" />
     <Compile Include="Pages\SearchPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\TC01BuyAvailableItem.cs" />

@@ -66,5 +66,22 @@ namespace AliExpressAutomation.Framework.Common
             WebDriver.Navigate().GoToUrl(Url);
         }
 
+        /// <summary>
+        /// Close the web driver
+        /// </summary>
+        public void Close()
+        {
+            WebDriver.Close();
+            WebDriver.Quit();
+        }
+
+        /// <summary>
+        /// ScrollDown in the Page
+        /// </summary>
+        public void ScrollDownOnPage()
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)WebDriver;
+            js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
+        }
     }
 }

@@ -23,13 +23,25 @@ namespace AliExpressAutomation.Tests
             browser.GoTo();
         }
 
+        [Test]
+        public void TC01ExistAvailableItem()
+        {
+            new HomePage(browser.WebDriver)
+                .CloseAdvertisement()
+                .SetSearch("Iphone")
+                .ClickSearchButton()
+                .GoToPage("2")
+                .SelectAdItemFromList("2");
+        }
 
         [Test]
-        public void TestMethod()
+        public void TC02QuantityIsMayorThanCero()
         {
             new HomePage(browser.WebDriver)
                 .SetSearch("Iphone")
-                .ClickSearchButton();
+                .ClickSearchButton()
+                .ClickNextButton()
+                .GoToPage("2");
         }
     }
 }
