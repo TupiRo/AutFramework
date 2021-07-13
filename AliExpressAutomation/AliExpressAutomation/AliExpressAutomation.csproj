@@ -55,15 +55,22 @@
     <Compile Include="Framework\Common\BrowserManager.cs" />
     <Compile Include="Framework\Common\DriverManager.cs" />
     <Compile Include="Pages\HomePage.cs" />
+    <Compile Include="Pages\SearchPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\TC01BuyAvailableItem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Framework\Resources\" />
     <Folder Include="Framework\Utilities\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="chromedriver.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

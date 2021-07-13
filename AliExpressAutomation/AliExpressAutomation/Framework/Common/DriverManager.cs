@@ -6,6 +6,7 @@ using OpenQA.Selenium.IE;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,15 +24,19 @@ namespace AliExpressAutomation.Framework.Common
         public IWebDriver DriverFactory()
         {
             IWebDriver instance;
-            string driverVersion = ConfigurationManager.AppSettings["BrowserToExecuteTests"];
+            string driverVersion = ConfigurationManager.AppSettings["browserToExecute"];
 
             switch (driverVersion)
             {
+                case "Chrome":
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.AddUserProfilePreference("download.prompt_for_download", false);
+                    chromeOptions.AddUserProfilePreference("download.directory_upgrade", true);
+                    chromeOptions.AddUserProfilePreference("download.default_directory", Path.GetTempPath());
+                    instance = new ChromeDriver(chromeOptions);
+                    break;
                 case "Firefox":
                     instance = new FirefoxDriver();
-                    break;
-                case "Chrome":
-                    instance = new ChromeDriver();
                     break;
                 case "IE":
                     instance = new InternetExplorerDriver();

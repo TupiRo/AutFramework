@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using AliExpressAutomation.Framework.Common;
+using AliExpressAutomation.Pages;
+using NUnit.Framework;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,12 +13,23 @@ namespace AliExpressAutomation.Tests
     [TestFixture]
     public class TC01BuyAvailableItem
     {
+        public BrowserManager browser;
+
+        [SetUp]
+        public void SetUp()
+        {
+            browser = BrowserManager.Instance;
+            browser.OpenBrowser();
+            browser.GoTo();
+        }
+
+
         [Test]
         public void TestMethod()
         {
-            // TODO: Add your test code here
-            var answer = 42;
-            Assert.That(answer, Is.EqualTo(42), "Some useful error message");
+            new HomePage(browser.WebDriver)
+                .SetSearch("Iphone")
+                .ClickSearchButton();
         }
     }
 }

@@ -34,7 +34,6 @@ namespace AliExpressAutomation.Framework.Common
         /// <param name="browser">The browser name.</param>
         private BrowserManager()
         {
-            _instance = new BrowserManager();
         }
 
         /// <summary>
