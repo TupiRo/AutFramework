@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace AliExpressAutomation.Tests
 {
     [TestFixture]
-    public class TC01BuyAvailableItem
+    public class SearchAliExpress
     {
         public BrowserManager browser;
 
@@ -26,16 +26,20 @@ namespace AliExpressAutomation.Tests
         [Test]
         public void TC01ExistAvailableItem()
         {
-            new HomePage(browser.WebDriver)
+            var actualPage = new HomePage(browser.WebDriver)
                 .CloseAdvertisement()
                 .SetSearch("Iphone")
                 .ClickSearchButton()
                 .GoToPage("2")
                 .SelectAdItemFromList("2");
+
+            // Validations
+            Assert.IsTrue(actualPage.IsQuantityGreaterThanCero());
+            Assert.IsTrue(actualPage.IsBuyNowButtonAvailable());
         }
 
         [Test]
-        public void TC02QuantityIsMayorThanCero()
+        public void TC02QuantityCannotBeUpatedToCero()
         {
             new HomePage(browser.WebDriver)
                 .SetSearch("Iphone")

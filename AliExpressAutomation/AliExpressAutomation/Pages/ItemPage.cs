@@ -9,7 +9,8 @@ namespace AliExpressAutomation.Pages
 {
     public class ItemPage
     {
-        public string txtQuantity => "input[aria-valuemax='4000']";
+        public string txtQuantity => "input[value='1']";
+        public string btnBuyNow => "button[class$='buynow']";
 
         public IWebDriver driver;
         public ItemPage(IWebDriver driver)
@@ -20,7 +21,7 @@ namespace AliExpressAutomation.Pages
 
         public string GetQuantity()
         {
-            var actualValue = driver.FindElement(By.CssSelector(txtQuantity)).Text;
+            var actualValue = driver.FindElement(By.CssSelector(txtQuantity)).GetAttribute("value");
             return actualValue;
         }
 
@@ -28,6 +29,17 @@ namespace AliExpressAutomation.Pages
         {
             driver.FindElement(By.CssSelector(txtQuantity)).SendKeys(newValue);
             return this;
+        }
+
+        public bool IsQuantityGreaterThanCero()
+        {
+            int actualValue = Convert.ToInt32(GetQuantity());
+            return actualValue > 0 ? true : false;
+        }
+
+        public bool IsBuyNowButtonAvailable()
+        {
+            return driver.FindElement(By.CssSelector(btnBuyNow)).Enabled;
         }
     }
 }
