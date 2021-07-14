@@ -1,10 +1,6 @@
 ﻿using OpenQA.Selenium;
-using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AliExpressAutomation.Framework.Common
 {
@@ -82,6 +78,31 @@ namespace AliExpressAutomation.Framework.Common
         {
             IJavaScriptExecutor js = (IJavaScriptExecutor)WebDriver;
             js.ExecuteScript("window.scrollTo(0, document.body.scrollHeight)");
+        }
+
+        /// <summary>
+        /// Switch to Actual Window
+        /// </summary>
+        public void SwitchToAcualWindow()
+        {
+            // Getting Windows
+            var oldTab = WebDriver.CurrentWindowHandle;
+
+            // Getting Actual Window
+            IList<string> newTab = new List<string>(WebDriver.WindowHandles);
+            newTab.Remove(oldTab);
+
+            // Switching Actual Window
+            WebDriver.SwitchTo().Window(newTab[0]);
+        }
+
+        /// <summary>
+        /// Scroll to find element
+        /// </summary>
+        public void ScrollDownOnPage(IWebElement webElement)
+        {
+            IJavaScriptExecutor js = (IJavaScriptExecutor)WebDriver;
+            js.ExecuteScript("arguments[0].scrollIntoView();", webElement);
         }
     }
 }

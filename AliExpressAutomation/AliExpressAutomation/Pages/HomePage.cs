@@ -1,19 +1,18 @@
-﻿using AliExpressAutomation.Framework.Common;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AliExpressAutomation.Pages
 {
+    /// <summary>
+    /// Home Page with Page Object Pattern
+    /// </summary>
     public class HomePage
     {
-        private string txtSearch => "search-key";
-        private string btnSearch => ".search-button";
-        private string btnClose => ".btn-close";
+        private string TxtSearch => "search-key";
+        private string BtnSearch => ".search-button";
+        private string BtnClose => ".btn-close";
+        private string CouponLayer => ".poplayer-content";
 
         public IWebDriver driver;
 
@@ -25,17 +24,17 @@ namespace AliExpressAutomation.Pages
 
         public HomePage SetSearch(string searchText)
         {
-            driver.FindElement(By.Id(txtSearch)).SendKeys(searchText);
+            driver.FindElement(By.Id(TxtSearch)).SendKeys(searchText);
             return this;
         }
 
         public HomePage CloseAdvertisement()
         {
-            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
-            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(btnClose)));
+            WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(8));
+            IWebElement element = wait.Until(ExpectedConditions.ElementIsVisible(By.CssSelector(CouponLayer)));
             if (element.Displayed)
             {
-                element.Click();
+                driver.FindElement(By.CssSelector(BtnClose)).Click();
             }
 
             return this;
@@ -43,7 +42,7 @@ namespace AliExpressAutomation.Pages
 
         public SearchPage ClickSearchButton()
         {
-            driver.FindElement(By.CssSelector(btnSearch)).Click();
+            driver.FindElement(By.CssSelector(BtnSearch)).Click();
             return new SearchPage(driver);
         }
     }

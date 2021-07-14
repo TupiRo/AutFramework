@@ -4,18 +4,19 @@ using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AliExpressAutomation.Pages
 {
+    /// <summary>
+    /// Search Page with Page Object Pattern
+    /// </summary>
     public class SearchPage
     {
-        private string btnNext => "button[aria-label^='Next page']";
-        private string txtGoToPage => "input[aria-label='Large']";
-        private string btnGo => ".jump-btn";
-        private string adItemList => "._1OUGS";
-        private string backdrop => ".next-overlay-backdrop";
+        private string BtnNext => "button[aria-label^='Next page']";
+        private string TxtGoToPage => "input[aria-label='Large']";
+        private string BtnGo => ".jump-btn";
+        private string AdItemList => "._1OUGS";
+        private string Backdrop => ".next-overlay-backdrop";
 
         public IWebDriver driver;
 
@@ -27,7 +28,8 @@ namespace AliExpressAutomation.Pages
 
         public SearchPage ClickNextButton()
         {
-            driver.FindElement(By.CssSelector(btnNext)).Click();
+            BrowserManager.Instance.ScrollDownOnPage();
+            driver.FindElement(By.CssSelector(BtnNext)).Click();
             return this;
         }
 
@@ -35,11 +37,11 @@ namespace AliExpressAutomation.Pages
         {
             // ScrollDown to find Element
             BrowserManager.Instance.ScrollDownOnPage();
-            var element = driver.FindElement(By.CssSelector(txtGoToPage));
+            var element = driver.FindElement(By.CssSelector(TxtGoToPage));
             element.SendKeys(pageToNavigate);
 
             // Click Go Button
-            driver.FindElement(By.CssSelector(btnGo)).Click();
+            driver.FindElement(By.CssSelector(BtnGo)).Click();
 
             return this;
         }
@@ -47,16 +49,15 @@ namespace AliExpressAutomation.Pages
         public ItemPage SelectAdItemFromList(string itemNumber)
         {
             // Collecting All Elements from Page
-            List<IWebElement> listItems = driver.FindElements(By.CssSelector(adItemList)).ToList();
+            List<IWebElement> listItems = driver.FindElements(By.CssSelector(AdItemList)).ToList();
             var element = listItems.ElementAt(Convert.ToInt32(itemNumber) - 1);
 
             // Wait for backdrop is not present
             WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector(backdrop)));
-            
-            //This will scroll the page till the element is found		
-            IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
-            js.ExecuteScript("arguments[0].scrollIntoView();", element);
+            wait.Until(ExpectedConditions.InvisibilityOfElementLocated(By.CssSelector(Backdrop)));
+
+            // Scroll the page till the element is found
+            BrowserManager.Instance.ScrollDownOnPage(element);
 
             // Click on Selected Item
             element.Click();

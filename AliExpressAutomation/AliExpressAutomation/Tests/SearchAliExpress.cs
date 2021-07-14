@@ -1,12 +1,6 @@
 ﻿using AliExpressAutomation.Framework.Common;
 using AliExpressAutomation.Pages;
 using NUnit.Framework;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AliExpressAutomation.Tests
 {
@@ -24,9 +18,9 @@ namespace AliExpressAutomation.Tests
         }
 
         [Test]
-        public void TC01ExistAvailableItem()
+        public void TC01ExistsAvailableItemToBuy()
         {
-            var actualPage = new HomePage(browser.WebDriver)
+            var itemPage = new HomePage(browser.WebDriver)
                 .CloseAdvertisement()
                 .SetSearch("Iphone")
                 .ClickSearchButton()
@@ -34,18 +28,30 @@ namespace AliExpressAutomation.Tests
                 .SelectAdItemFromList("2");
 
             // Validations
-            Assert.IsTrue(actualPage.IsQuantityGreaterThanCero());
-            Assert.IsTrue(actualPage.IsBuyNowButtonAvailable());
+            Assert.IsTrue(itemPage.IsQuantityGreaterThanCero());
+            Assert.IsTrue(itemPage.IsBuyNowButtonAvailable());
         }
 
         [Test]
         public void TC02QuantityCannotBeUpatedToCero()
         {
-            new HomePage(browser.WebDriver)
+            var itemPage = new HomePage(browser.WebDriver)
+                .CloseAdvertisement()
                 .SetSearch("Iphone")
                 .ClickSearchButton()
                 .ClickNextButton()
-                .GoToPage("2");
+                .SelectAdItemFromList("2")
+                .SetTxtQuantity("0");
+
+            // Validations
+            Assert.IsTrue(itemPage.IsQuantityGreaterThanCero());
+            Assert.IsFalse(itemPage.IsMinusButtonEnabled());
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            browser.Close();
         }
     }
 }

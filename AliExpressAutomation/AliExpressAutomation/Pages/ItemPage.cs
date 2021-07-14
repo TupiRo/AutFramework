@@ -1,33 +1,40 @@
-﻿using OpenQA.Selenium;
+﻿using AliExpressAutomation.Framework.Common;
+using OpenQA.Selenium;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AliExpressAutomation.Pages
 {
+    /// <summary>
+    /// Item Page with Page Object Pattern
+    /// </summary>
     public class ItemPage
     {
-        public string txtQuantity => "input[value='1']";
-        public string btnBuyNow => "button[class$='buynow']";
+        public string TxtQuantity => ".next-input-group input";
+        public string BtnBuyNow => "button[class$='buynow']";
+        public string BtnMinus => "span[class$='next-before'] button";
+
 
         public IWebDriver driver;
         public ItemPage(IWebDriver driver)
         {
             this.driver = driver;
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            BrowserManager.Instance.SwitchToAcualWindow();
         }
 
         public string GetQuantity()
         {
-            var actualValue = driver.FindElement(By.CssSelector(txtQuantity)).GetAttribute("value");
+            var actualValue = driver.FindElement(By.CssSelector(TxtQuantity)).GetAttribute("value");
             return actualValue;
         }
 
         public ItemPage SetTxtQuantity(string newValue)
         {
-            driver.FindElement(By.CssSelector(txtQuantity)).SendKeys(newValue);
+            var element = driver.FindElement(By.CssSelector(TxtQuantity));
+
+            // Setting element
+            element.Clear();
+            element.SendKeys(newValue + Keys.Tab);
+
             return this;
         }
 
@@ -39,7 +46,12 @@ namespace AliExpressAutomation.Pages
 
         public bool IsBuyNowButtonAvailable()
         {
-            return driver.FindElement(By.CssSelector(btnBuyNow)).Enabled;
+            return driver.FindElement(By.CssSelector(BtnBuyNow)).Enabled;
+        }
+
+        public bool IsMinusButtonEnabled()
+        {
+            return driver.FindElement(By.CssSelector(BtnMinus)).Enabled;
         }
     }
 }
